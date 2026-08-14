@@ -54,10 +54,13 @@
                 .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
     }
 
-    
+    // v3.4：保存全部课程，用于前端本地搜索过滤
+    var allCourses = [];
+
+    // ========== 策略1: DOM 解析（从 .course-item-wrapper / .courseInfo 卡片 + Vue 实例） ==========
     function extractFromCards(doc) {
         var courses = [];
-        
+        // 两种卡片：最近学习 (.course-item-wrapper) 和全部课程 (.courseInfo)
         var cards = (doc || document).querySelectorAll('.course-item-wrapper, .courseInfo');
         for (var i = 0; i < cards.length; i++) {
             var card = cards[i];
@@ -65,15 +68,15 @@
             var name = titleEl ? titleEl.textContent.trim() : '';
             var courseId = null;
 
-            
+            // 尝试从 Vue 实例多路径提取 course_id
             try {
                 var vm = card.__vue__;
                 if (vm) {
-                    
+                    // 直接属性
                     courseId = tryExtractId(vm);
-                    
+                    // $data
                     if (!courseId && vm.$data) courseId = tryExtractId(vm.$data);
-                    
+                    // $props
                     if (!courseId && vm.$props) {
                         var propKeys = Object.keys(vm.$props);
                         for (var pk = 0; pk < propKeys.length && !courseId; pk++) {
@@ -82,11 +85,11 @@
                             if (typeof pv === 'number') courseId = pv;
                         }
                     }
-                    
+                    // $parent
                     if (!courseId && vm.$parent) {
                         var pId = tryExtractId(vm.$parent);
                         if (pId) courseId = pId;
-                        
+                        // $parent.$props 或 $parent 上的列表
                         if (!courseId && vm.$parent.$props) {
                             var ppKeys = Object.keys(vm.$parent.$props);
                             for (var ppk = 0; ppk < ppKeys.length && !courseId; ppk++) {
@@ -98,7 +101,7 @@
                         }
                     }
                 }
-                
+                // Vue 3 fallback
                 if (!courseId && card._vnode && card._vnode.component) {
                     courseId = tryExtractId(card._vnode.component);
                 }
@@ -111,10 +114,10 @@
 
     function tryExtractId(obj) {
         if (!obj || typeof obj !== 'object') return null;
-        
+        // 优先找 course_id
         if (obj.course_id) return obj.course_id;
         if (obj.courseId) return obj.courseId;
-        
+        // 找嵌套 item/row/course
         var wrappers = ['item', 'row', 'course', 'data', 'info', 'courseInfo', 'courseData', 'origin'];
         for (var w = 0; w < wrappers.length; w++) {
             var wrap = obj[wrappers[w]];
@@ -124,16 +127,16 @@
                 if (wrap.id) return wrap.id;
             }
         }
-        
+        // Vue $props 所有属性
         if (obj.$props) {
             var pKeys = Object.keys(obj.$props);
             for (var pk = 0; pk < pKeys.length; pk++) {
                 var pv = obj.$props[pKeys[pk]];
                 if (pv && typeof pv === 'object' && (pv.course_id || pv.courseId)) return pv.course_id || pv.courseId;
-                if (typeof pv === 'number' && pv > 1000) return pv;  
+                if (typeof pv === 'number' && pv > 1000) return pv;  // 可能的 course_id
             }
         }
-        
+        // Vue _props (Vue 2 internal)
         if (obj._props) {
             var ppKeys = Object.keys(obj._props);
             for (var ppk = 0; ppk < ppKeys.length; ppk++) {
@@ -142,7 +145,7 @@
                 if (typeof ppv === 'number' && ppv > 1000) return ppv;
             }
         }
-        
+        // 遍历所有可枚举属性（暴力但有效）
         try {
             var ownKeys = Object.keys(obj);
             for (var ok = 0; ok < ownKeys.length; ok++) {
@@ -151,14 +154,14 @@
                 if (ov && typeof ov === 'object' && ov.course_id) return ov.course_id;
             }
         } catch(e) {}
-        
+        // 兜底：有课程名时用 id
         if ((obj.course_name || obj.courseName) && obj.id) return obj.id;
         return null;
     }
 
-    
+    // ========== 策略2: 查找所有文档中的课程卡片（含 iframe） ==========
     function findAllCards() {
-        
+        // 扫描主文档和所有 iframe
         var docs = [document];
         var iframes = document.querySelectorAll('iframe');
         for (var i = 0; i < iframes.length; i++) {
@@ -175,7 +178,7 @@
         return allCourses;
     }
 
-    
+    // 从 API 响应对象中递归提取课程数据
     function extractCoursesFromObject(obj) {
         var courses = [];
         var seen = {};
@@ -188,7 +191,7 @@
         }
 
         function extractId(item) {
-            
+            // 暴力查找：尝试所有可能的 ID 字段名
             var idFields = ['course_id', 'courseId', 'id', 'cid', 'class_id', 'classId',
                 'source_id', 'sourceId', 'resource_id', 'lesson_id', 'origin_id',
                 'plan_id', 'training_id', 'tc_course_id', 'tronclass_id'];
@@ -198,7 +201,7 @@
                     return v;
                 }
             }
-            
+            // 如果没有任何 ID 字段，看看有没有嵌套的 courseInfo/course/info 对象
             var wrappers = ['courseInfo', 'course', 'info', 'basicInfo', 'detail'];
             for (var w = 0; w < wrappers.length; w++) {
                 var wrap = item[wrappers[w]];
@@ -221,11 +224,11 @@
                 var v = item[nameFields[f]];
                 if (v && typeof v === 'string' && v.trim().length > 1) {
                     var name = v.trim();
-                    
-                    if (name.indexOf('el-') === 0) continue;      
-                    if (name.indexOf('_') === 0) continue;         
-                    if (/^[a-z]+-[a-z]+/.test(name) && name.length < 20) continue; 
-                    if (/^[A-Z]/.test(name) && /[a-z]/.test(name) && name.length < 15 && name.indexOf(' ') === -1) continue; 
+                    // 过滤掉明显不是课程名的：CSS类名、HTML标签、单字符等
+                    if (name.indexOf('el-') === 0) continue;      // Element UI 类名
+                    if (name.indexOf('_') === 0) continue;         // 内部变量
+                    if (/^[a-z]+-[a-z]+/.test(name) && name.length < 20) continue; // kebab-case
+                    if (/^[A-Z]/.test(name) && /[a-z]/.test(name) && name.length < 15 && name.indexOf(' ') === -1) continue; // PascalCase
                     return name;
                 }
             }
@@ -233,7 +236,7 @@
         }
 
         function isCourseLike(item) {
-            
+            // 必须有课程特有的字段，不能仅凭 name + id
             var courseFields = ['course_name', 'courseName', 'coursename',
                 'study_time', 'studyTime', 'task_count', 'progress',
                 'courseware_count', 'lesson_count', 'teacher_name', 'lecturer_name',
@@ -252,7 +255,7 @@
                 try { visited.add(node); } catch(e) { return; }
             }
 
-            
+            // 跳过 CONFIG 对象
             if (node === window.CONFIG) return;
 
             if (Array.isArray(node) && node.length > 0 && node.length < 500) {
@@ -271,7 +274,7 @@
             for (var k = 0; k < keys.length; k++) {
                 try {
                     var child = node[keys[k]];
-                    
+                    // 跳过非课程相关的对象
                     if (child === window.CONFIG) continue;
                     if (child && typeof child === 'object') walk(child, depth + 1);
                 } catch(e) {}
@@ -282,28 +285,75 @@
         return courses;
     }
 
-    
+    // ========== 策略3: API（正确端点 + 分页翻页） ==========
+    // v3.1：直接用教育门户的真实课程接口 account-profile/course，
+    //       该接口分页字段为 page / per-page / total（注意是连字符 per-page）。
+    //       循环翻页拉取全部课程（默认每页仅 10 条，需翻到 total 为止）。
     function tryApi(callback) {
-        
-        var origin = window.location.origin;
-        var yjapi = 'https://yjapi.wqxt.cdut.edu.cn';
-        var endpoints = [
-            origin + '/courseapi/v3/multi-search/myCourse/list',
-            origin + '/courseapi/v3/coursecard/my-course-list',
-            origin + '/courseapi/v3/user/course-list',
-            origin + '/courseapi/userapi/v1/my-course',
-            origin + '/personal/courseapi/v3/multi-search/myCourse/list',
-            yjapi + '/courseapi/v3/multi-search/myCourse/list',
-            yjapi + '/courseapi/v3/coursecard/my-course-list'
-        ];
+        var API = 'https://education.wqxt.cdut.edu.cn/personal/courseapi/vlabpassportapi/v1/account-profile/course';
+        var allCourses = [];
+        var page = 1;
+        var perPage = 100;   // 一次拉 100 条，通常一页就够
 
-        var tried = 0;
-        function tryNext() {
-            if (tried >= endpoints.length) {
-                callback([]);
-                return;
+        // 直接解析 account-profile/course 的返回结构（字段为大写 Id/Title/Teacher）
+        function parseCourseData(data) {
+            var result = (data && data.params && data.params.result) || {};
+            var list = result.data || [];
+            var total = result.total;
+            var out = [];
+            for (var i = 0; i < list.length; i++) {
+                var c = list[i];
+                var id = c.Id !== undefined ? c.Id : c.id;
+                var title = c.Title || c.title || c.Name || '';
+                var teacher = c.Teacher || c.teacher || '';
+                if (id && title) {
+                    out.push({
+                        name: title + (teacher ? ' — ' + teacher : ''),
+                        course_id: id,
+                        title: title,
+                        teacher: teacher
+                    });
+                }
             }
-            var url = endpoints[tried++];
+            return { courses: out, total: total };
+        }
+
+        function fetchPage(p) {
+            var url = API + '?page=' + p + '&per-page=' + perPage;
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', url, true);
+            xhr.withCredentials = true;
+            xhr.timeout = 8000;
+            xhr.onload = function() {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    try {
+                        var data = JSON.parse(xhr.responseText);
+                        window.__wqt_raw_response = data;
+                        var parsed = parseCourseData(data);
+                        allCourses = allCourses.concat(parsed.courses);
+                        var total = parsed.total;
+
+                        // 判断是否还需翻页
+                        var fetchedCount = p * perPage;
+                        if (total && fetchedCount < total) {
+                            fetchPage(p + 1);
+                        } else {
+                            callback(allCourses);
+                        }
+                        return;
+                    } catch(e) { console.log('[WQT] API parse error:', e); }
+                }
+                // 失败回退：尝试通用递归提取
+                fallbackRecursive(p);
+            };
+            xhr.onerror = function() { fallbackRecursive(p); };
+            xhr.ontimeout = function() { fallbackRecursive(p); };
+            xhr.send();
+        }
+
+        function fallbackRecursive(p) {
+            // 兜底：用旧的递归提取 + 尝试翻页
+            var url = API + '?page=' + p + '&per-page=' + perPage;
             var xhr = new XMLHttpRequest();
             xhr.open('GET', url, true);
             xhr.withCredentials = true;
@@ -312,27 +362,23 @@
                 if (xhr.status >= 200 && xhr.status < 300) {
                     try {
                         var data = JSON.parse(xhr.responseText);
-                        
-                        window.__wqt_raw_response = data;
-
-                        
                         var courses = extractCoursesFromObject(data);
                         if (courses.length > 0) {
-                            callback(courses);
-                            return;
+                            allCourses = allCourses.concat(courses);
                         }
-                    } catch(e) { console.log('[WQT] API parse error:', e); }
+                    } catch(e) {}
                 }
-                tryNext();
+                callback(allCourses);
             };
-            xhr.onerror = function() { tryNext(); };
-            xhr.ontimeout = function() { tryNext(); };
+            xhr.onerror = function() { callback(allCourses); };
+            xhr.ontimeout = function() { callback(allCourses); };
             xhr.send();
         }
-        tryNext();
+
+        fetchPage(page);
     }
 
-    
+    // ========== 构建 UI ==========
     function buildHtml(courses) {
         var tenant = '21';
         var rows = '';
@@ -358,41 +404,79 @@
     }
 
     function showCourses(courses) {
-        content.innerHTML =
-            '<div style="font-weight:bold;margin-bottom:10px;">📚 共 ' + courses.length + ' 门课程</div>' +
-            '<div style="font-size:12px;color:#999;margin-bottom:8px;">点击「进入课程」打开课程目录，然后用课件下载功能</div>' +
-            buildHtml(courses);
+        allCourses = courses;
         var hasId = courses.filter(function(c) { return !!c.course_id; }).length;
+
+        content.innerHTML =
+            '<div style="font-weight:bold;margin-bottom:8px;">📚 共 ' + courses.length + ' 门课程</div>' +
+            '<div style="margin-bottom:10px;">' +
+            '  <input id="wqt-mc-search" type="text" placeholder="搜索课程名称 / 教师 / ID..." ' +
+            '    style="width:100%;box-sizing:border-box;padding:8px 12px;border:1px solid #d9d9d9;' +
+            '    border-radius:6px;font-size:13px;outline:none;transition:border-color 0.2s;" />' +
+            '</div>' +
+            '<div id="wqt-mc-list" style="max-height:420px;overflow-y:auto;">' + buildHtml(courses) + '</div>';
+
         footer.innerHTML =
             '<span style="flex:1;font-size:13px;color:#999;">有效: ' + hasId + '/' + courses.length + '</span>' +
             '<button onclick="document.getElementById(\'wqt-mc-close\').click()" style="padding:6px 16px;cursor:pointer;color:#666;background:#f5f5f5;border:1px solid #d9d9d9;border-radius:4px;">关闭</button>';
+
+        
+        var searchInput = document.getElementById('wqt-mc-search');
+        var listBox = document.getElementById('wqt-mc-list');
+        if (searchInput) {
+            searchInput.addEventListener('focus', function() {
+                searchInput.style.borderColor = '#1890ff';
+                searchInput.style.boxShadow = '0 0 0 2px rgba(24,144,255,0.2)';
+            });
+            searchInput.addEventListener('blur', function() {
+                searchInput.style.borderColor = '#d9d9d9';
+                searchInput.style.boxShadow = 'none';
+            });
+            searchInput.addEventListener('input', function() {
+                var kw = searchInput.value.trim().toLowerCase();
+                var filtered = allCourses.filter(function(c) {
+                    if (!kw) return true;
+                    var name = (c.name || '').toLowerCase();
+                    var title = (c.title || '').toLowerCase();
+                    var teacher = (c.teacher || '').toLowerCase();
+                    var id = String(c.course_id || '');
+                    return name.indexOf(kw) !== -1 ||
+                           title.indexOf(kw) !== -1 ||
+                           teacher.indexOf(kw) !== -1 ||
+                           id.indexOf(kw) !== -1;
+                });
+                listBox.innerHTML = buildHtml(filtered);
+            });
+            
+            searchInput.focus();
+        }
     }
 
     
+    
+    
+    
     function main() {
-        content.innerHTML = '<div style="text-align:center;padding:30px;color:#1890ff;">⏳ 正在提取课程列表...</div>';
+        content.innerHTML = '<div style="text-align:center;padding:30px;color:#1890ff;">⏳ 正在加载课程...</div>';
         footer.innerHTML = '';
 
         
         setTimeout(function() {
             
-            content.innerHTML = '<div style="text-align:center;padding:30px;color:#1890ff;">⏳ 解析课程列表...</div>';
-            var domCourses = findAllCards();
-
-            if (domCourses.length > 0 && domCourses.some(function(c) { return c.course_id; })) {
-                
-                showCourses(domCourses);
-                return;
-            }
-
-            
-            content.innerHTML = '<div style="text-align:center;padding:30px;color:#faad14;">⏳ 通过 API 获取课程...</div>';
+            content.innerHTML = '<div style="text-align:center;padding:30px;color:#faad14;">⏳ 正在获取课程...</div>';
             tryApi(function(apiCourses) {
-                var courses = apiCourses.length > 0 ? apiCourses : domCourses;
+                if (apiCourses.length > 0) {
+                    showCourses(apiCourses);
+                    return;
+                }
 
-                if (courses.length > 0) {
-                    showCourses(courses);
-                } else {
+                
+                content.innerHTML = '<div style="text-align:center;padding:30px;color:#1890ff;">⏳ 正在读取课程...</div>';
+                var domCourses = findAllCards();
+                if (domCourses.length > 0) {
+                    showCourses(domCourses);
+                    return;
+                }
                     var eduLink = 'https://education.wqxt.cdut.edu.cn/?tenant_code=21';
                     content.innerHTML =
                         '<div style="text-align:center;padding:30px 20px;color:#666;">' +
@@ -403,10 +487,9 @@
                         '<a href="' + eduLink + '" target="_blank" style="display:block;margin:8px auto;padding:10px 20px;' +
                         'background:#1890ff;color:#fff;text-decoration:none;border-radius:6px;width:200px;">' +
                         '📚 进入我的学习</a></div>';
-                    footer.innerHTML =
-                        '<button onclick="document.getElementById(\'wqt-mc-close\').click()" ' +
-                        'style="padding:6px 16px;cursor:pointer;color:#666;background:#f5f5f5;border:1px solid #d9d9d9;border-radius:4px;">关闭</button>';
-                }
+                footer.innerHTML =
+                    '<button onclick="document.getElementById(\'wqt-mc-close\').click()" ' +
+                    'style="padding:6px 16px;cursor:pointer;color:#666;background:#f5f5f5;border:1px solid #d9d9d9;border-radius:4px;">关闭</button>';
             });
         }, 1000);
     }

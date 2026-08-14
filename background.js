@@ -1,6 +1,11 @@
 chrome.action.onClicked.addListener((tab) => {
   const url = tab.url || '';
-  if (!url.includes('wqxt.cdut.edu.cn')) return;
+
+  
+  if (!url.includes('wqxt.cdut.edu.cn')) {
+    chrome.tabs.create({ url: 'https://education.wqxt.cdut.edu.cn/?tenant_code=21' });
+    return;
+  }
 
   if (url.includes('classroom.wqxt.cdut.edu.cn')) {
     chrome.scripting.executeScript({
@@ -35,5 +40,30 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       }
     });
     return true;
+  }
+
+  
+  
+  if (message.action === 'fetch-image') {
+    fetch(message.url, { credentials: 'include' })
+      .then((resp) => {
+        if (!resp.ok) {
+          sendResponse({ success: false, status: resp.status });
+          return;
+        }
+        return resp.arrayBuffer().then((buf) => {
+          
+          const bytes = new Uint8Array(buf);
+          let binary = '';
+          for (let i = 0; i < bytes.length; i++) {
+            binary += String.fromCharCode(bytes[i]);
+          }
+          sendResponse({ success: true, base64: btoa(binary) });
+        });
+      })
+      .catch((e) => {
+        sendResponse({ success: false, error: String(e) });
+      });
+    return true;  
   }
 });

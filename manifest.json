@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "cdut-wqhelper",
-  "version": "2.0",
+  "version": "3.0.0",
   "description": "成都理工大学问渠学堂助手 — 课件PPT导出/课堂笔记提取/课程列表",
   "author": "chenzy0355@gmail.com",
   "permissions": [

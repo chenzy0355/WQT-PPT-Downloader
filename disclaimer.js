@@ -1,6 +1,6 @@
 (function() {
     
-    if (localStorage.getItem('wqt_disclaimer_agreed') === 'true') return;
+    if (document.cookie.indexOf('wqt_disclaimer_agreed=1') !== -1) return;
     if (document.getElementById('wqt-disclaimer')) return;
 
     var overlay = document.createElement('div');
@@ -34,7 +34,8 @@
     document.body.appendChild(overlay);
 
     document.getElementById('wqt-agree').onclick = function() {
-        localStorage.setItem('wqt_disclaimer_agreed', 'true');
+        
+        document.cookie = 'wqt_disclaimer_agreed=1; path=/; domain=.wqxt.cdut.edu.cn; max-age=' + (365 * 24 * 60 * 60);
         overlay.remove();
     };
 

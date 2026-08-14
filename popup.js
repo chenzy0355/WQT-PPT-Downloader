@@ -49,7 +49,16 @@
         'display:flex;justify-content:space-between;align-items:center;' +
         'cursor:move;user-select:none;flex-shrink:0;border-radius:12px 12px 0 0;';
     titleBar.innerHTML =
+        '<span style="display:flex;align-items:center;gap:10px;">' +
         '<span style="font-size:16px;font-weight:bold;">📚 cdut-wqhelper</span>' +
+        '<a href="https://github.com/chenzy0355/cdut-wqhelper" target="_blank" title="GitHub 项目" ' +
+        'style="color:#fff;text-decoration:none;opacity:0.85;font-size:14px;">' +
+        '<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="vertical-align:-2px;">' +
+        '<path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>' +
+        '</a>' +
+        '<a href="https://gitee.com/chenzy1/cdut-wqhelper" target="_blank" title="Gitee 项目" ' +
+        'style="color:#fff;text-decoration:none;opacity:0.85;font-size:12px;">Gitee</a>' +
+        '</span>' +
         '<span style="display:flex;gap:6px;">' +
         '<button id="wqt-settings-btn" title="设置" style="width:28px;height:28px;border:none;background:rgba(255,255,255,0.2);color:#fff;border-radius:4px;cursor:pointer;font-size:16px;line-height:1;">⚙</button>' +
         '<button id="wqt-min-btn" title="最小化" style="width:28px;height:28px;border:none;background:rgba(255,255,255,0.2);color:#fff;border-radius:4px;cursor:pointer;font-size:18px;line-height:1;">−</button>' +
@@ -91,10 +100,12 @@
         '<div style="background:#fff;border:1px solid #f0f0f0;border-radius:6px;padding:8px 10px;">' +
         '<label style="display:flex;align-items:flex-start;padding:4px 0;cursor:pointer;font-size:13px;">' +
         '<input type="radio" name="wqt-single-method" value="silent" style="margin-top:2px;margin-right:6px;">' +
-        '<div>🚀 自动提取<span style="font-size:11px;color:#52c41a;"> 推荐</span></div></label>' +
+        '<div>🚀 一键提取<span style="font-size:11px;color:#52c41a;"> 推荐</span>' +
+        '<div style="font-size:11px;color:#999;margin-top:2px;">直接获取 PPT 原图</div></div></label>' +
         '<label style="display:flex;align-items:flex-start;padding:4px 0;cursor:pointer;font-size:13px;">' +
         '<input type="radio" name="wqt-single-method" value="clicker" style="margin-top:2px;margin-right:6px;">' +
-        '<div>🖱 翻页提取</div></label>' +
+        '<div>🖱 翻页提取' +
+        '<div style="font-size:11px;color:#999;margin-top:2px;">从页面缓存提取</div></div></label>' +
         '</div></div>' +
         
         '<div style="flex:1;min-width:0;">' +
@@ -105,11 +116,15 @@
         '<div>🎤 包含语音识别</div></label>' +
         '</div></div>' +
         '</div>' +
-        '<div style="margin-top:10px;padding-top:8px;border-top:1px solid #f0f0f0;' +
+        '<div style="margin-top:10px;padding-top:10px;border-top:1px solid #f0f0f0;' +
         'font-size:12px;color:#999;text-align:center;">' +
+        '<div style="margin-bottom:8px;">' +
+        '<a href="https://qun.qq.com/universal-share/share?ac=1&authKey=uimlA%2BL1FwMtbHqRkhzDY5F4E2m1M89Ymqd7fyk7%2FjMyXujBhPy3EdSnPeaFIBp%2B&busi_data=eyJncm91cENvZGUiOiIxMDgzNDI1NzYxIiwidG9rZW4iOiJHS24wU0NEYzlrK2hhcllqam1GQlBERU1jZG80REJSUU5zRzhyYkZ6NDNRdnFDZHp6YUIvcFR2dnB3QmZHcmwwIiwidWluIjoiMjM4ODkzMDM4NyJ9&data=QfHaf1AOP4ZCfT-KNwXZcFSrda2rbYJU9WaRHRUt2bqnRvWUmo2LALuf5JrsYb3J5WAz-tBYyjCrFBE8ptAPHA&svctype=4&tempid=h5_group_info" target="_blank" ' +
+        'style="color:#1890ff;text-decoration:none;">反馈群</a>' +
+        '</div>' +
         '<a href="mailto:chenzy0355@gmail.com?subject=cdut-wqhelper%20%E5%8F%8D%E9%A6%88' +
         '&body=%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0%EF%BC%9A%0A%0A%E9%A1%B5%E9%9D%A2%E5%9C%B0%E5%9D%80%EF%BC%9A%0A%0A%E5%A4%8D%E7%8E%B0%E6%AD%A5%E9%AA%A4%EF%BC%9A" ' +
-        'style="color:#1890ff;text-decoration:none;">🐛 问题反馈 · chenzy0355@gmail.com</a></div>';
+        'style="color:#1890ff;text-decoration:none;">问题反馈 · chenzy0355@gmail.com</a></div>';
 
     
     var savedMethod = localStorage.getItem('wqt_single_method') || 'silent';
@@ -302,23 +317,23 @@
         footer.innerHTML = html;
     }
 
-    
-    
-    
+    // ====================================================================
+    //  PDF 直接保存模块
+    // ====================================================================
 
     function getSingleMethodName() {
-        return (localStorage.getItem('wqt_single_method') || 'silent') === 'silent' ? '自动' : '翻页';
+        return (localStorage.getItem('wqt_single_method') || 'silent') === 'silent' ? '一键提取' : '翻页提取';
     }
 
-    
+    // 从页面提取课程名称
     function extractCourseName() {
         var title = (document.title || '').replace(/[_\-]\s*问渠学堂.*$/, '').trim();
-        
+        // 去掉日期模式 "2025-10-13第5-6节" 及其后面的内容，留下课程名
         title = title.replace(/[_\-]\s*\d{4}-\d{2}-\d{2}第\d+-\d+节.*$/, '').trim();
         title = title.replace(/\s*回放\s*$/, '').trim();
         if (title) return title;
 
-        
+        // 尝试从 DOM 中查找面包屑或课程标题
         var crumb = document.querySelector('.course-title, .breadcrumb span:last-child, h1, .title');
         if (crumb) {
             var t = crumb.textContent.trim();
@@ -329,14 +344,14 @@
         return '课件';
     }
 
-    
+    // 生成 PDF 文件名：课程名_课节标题.pdf
     function makePdfFilename(lessonLabel) {
         var course = extractCourseName();
         var label = (lessonLabel || document.title || '课件')
             .replace(/回放\s*/g, '')
             .replace(/[_\-]\s*问渠学堂.*$/, '')
             .trim();
-        
+        // 避免课程名重复：如果 label 已经以课程名开头就不重复
         var full;
         if (course && label.indexOf(course) === 0) {
             full = label;
@@ -350,45 +365,206 @@
     }
 
     
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    function fetchPptUrlsByApi(subId) {
+        return new Promise(function(resolve) {
+            var api = '/pptnote/v1/schedule/search-ppt?sub_id=' + subId + '&per_page=999';
+            fetch(api, { credentials: 'include' })
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    var list = data && data.list ? data.list : [];
+                    
+                    list.sort(function(a, b) {
+                        return (a.created_sec || 0) - (b.created_sec || 0);
+                    });
+                    var urls = [];
+                    for (var i = 0; i < list.length; i++) {
+                        try {
+                            var content = JSON.parse(list[i].content || '{}');
+                            var u = content.pptimgurl;  
+                            if (u) urls.push(u);
+                        } catch (e) {}
+                    }
+                    resolve(urls);
+                })
+                .catch(function(e) {
+                    console.warn('[wqxt] search-ppt API 失败，回退 DOM 提取:', e);
+                    resolve(null); 
+                });
+        });
+    }
+
+    
+    function fetchSubTitle(subId) {
+        return new Promise(function(resolve) {
+            var courseId = (new URLSearchParams(window.location.search)).get('course_id');
+            var api = '/courseapi/v3/multi-search/get-course-detail?course_id=' + courseId;
+            fetch(api, { credentials: 'include' })
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    var subList = data && data.data ? data.data.sub_list : null;
+                    var found = '';
+                    
+                    (function walk(o) {
+                        if (!o || typeof o !== 'object') return;
+                        if (Array.isArray(o)) {
+                            for (var i = 0; i < o.length; i++) walk(o[i]);
+                        } else {
+                            if (o.id && String(o.id) === String(subId) && o.sub_title) {
+                                found = o.sub_title;
+                                return;
+                            }
+                            for (var k in o) if (o.hasOwnProperty(k)) walk(o[k]);
+                        }
+                    })(subList);
+                    resolve(found);
+                })
+                .catch(function() { resolve(''); });
+        });
+    }
+
+    
+    
+    function imageUrlToDataUrlWithRetry(url, maxRetry) {
+        maxRetry = maxRetry || 6;
+        return new Promise(function(resolve) {
+            var attempt = 0;
+            function tryOnce() {
+                imageUrlToDataUrl(url).then(function(dataUrl) {
+                    if (dataUrl) { resolve(dataUrl); return; }
+                    attempt++;
+                    if (attempt >= maxRetry) { resolve(null); return; }
+                    
+                    setTimeout(tryOnce, 1000 * attempt);
+                });
+            }
+            tryOnce();
+        });
+    }
+
+    
+    
+    
+    
+    
+    
+    function downloadWithProbe(urls, onProgress, mode) {
+        
+        return new Promise(function(resolve) {
+            var result = new Array(urls.length).fill(null);  
+            var pendingIdx = [];  
+            urls.forEach(function(u, i) { if (u) pendingIdx.push(i); });
+
+            var concurrency = 24;       
+            var maxTotalMs = 45000;     
+            var startTime = Date.now();
+            var round = 0;
+            var failCount = {};         
+
+            function runRound() {
+                if (pendingIdx.length === 0) { resolve(result); return; }
+                if (Date.now() - startTime >= maxTotalMs) { resolve(result); return; }
+
+                var batch = pendingIdx.splice(0, concurrency);
+                var done = 0;
+                var stillPending = [];
+
+                batch.forEach(function(idx) {
+                    var dlPromise = imageUrlToDataUrl(urls[idx]);
+
+                    dlPromise.then(function(data) {
+                        if (data) {
+                            result[idx] = data;
+                        } else {
+                            
+                            failCount[idx] = (failCount[idx] || 0) + 1;
+                            if (failCount[idx] <= 3) {
+                                stillPending.push(idx);  
+                            }
+                        }
+                        done++;
+                        if (done >= batch.length) {
+                            pendingIdx = pendingIdx.concat(stillPending);
+                            round++;
+
+                            if (onProgress) {
+                                var okCount = result.filter(function(x) { return !!x; }).length;
+                                onProgress(okCount, pendingIdx.length);
+                            }
+
+                            if (pendingIdx.length === 0 || Date.now() - startTime >= maxTotalMs) {
+                                resolve(result);
+                                return;
+                            }
+                            var delay = Math.min(1000 + round * 500, 4000);
+                            setTimeout(runRound, delay);
+                        }
+                    });
+                });
+            }
+
+            runRound();
+        });
+    }
+
+    
+    
+    
+    
+    
     function imageUrlToDataUrl(url) {
         return new Promise(function(resolve) {
+            var settled = false;
+            function done(v) { if (!settled) { settled = true; resolve(v); } }
+
+            var timeout = setTimeout(function() { done(null); }, 15000);
+            function finish(v) { clearTimeout(timeout); done(v); }
+
+            
+            
             var img = new Image();
             img.crossOrigin = 'anonymous';
             img.onload = function() {
-                var canvas = document.createElement('canvas');
-                canvas.width = img.naturalWidth;
-                canvas.height = img.naturalHeight;
-                var ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0);
-                resolve(canvas.toDataURL('image/jpeg', 0.92));
+                try {
+                    if (!img.naturalWidth || !img.naturalHeight) { finish(null); return; }
+                    var canvas = document.createElement('canvas');
+                    canvas.width = img.naturalWidth;
+                    canvas.height = img.naturalHeight;
+                    var ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0);
+                    finish(canvas.toDataURL('image/jpeg', 0.92));
+                } catch (e) { finish(null); }
             };
-            img.onerror = function() {
-                
-                fetch(url, { mode: 'cors' })
-                    .then(function(r) { return r.blob(); })
-                    .then(function(blob) {
-                        var reader = new FileReader();
-                        reader.onload = function() { resolve(reader.result); };
-                        reader.readAsDataURL(blob);
-                    })
-                    .catch(function() { resolve(null); });
-            };
+            img.onerror = function() { finish(null); };
             img.src = url;
         });
     }
 
     
-    async function generatePdfBlob(imageUrls) {
+    async function generatePdfBlob(imageUrls, onProgress) {
         if (!window.jspdf) { alert('PDF 库未加载，请刷新页面重试。'); return null; }
         var jsPDF = window.jspdf.jsPDF;
         var doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: [256, 144] });
 
-        for (var i = 0; i < imageUrls.length; i++) {
-            if (i > 0) doc.addPage([256, 144], 'landscape');
-            var dataUrl = await imageUrlToDataUrl(imageUrls[i]);
-            if (dataUrl) {
-                doc.addImage(dataUrl, 'JPEG', 0, 0, 256, 144);
-            }
+        
+        var dataUrls = await downloadWithProbe(imageUrls, onProgress, 'dataUrl');
+
+        
+        var added = 0;
+        for (var i = 0; i < dataUrls.length; i++) {
+            if (!dataUrls[i]) continue;  
+            if (added > 0) doc.addPage([256, 144], 'landscape');
+            doc.addImage(dataUrls[i], 'JPEG', 0, 0, 256, 144);
+            added++;
         }
 
         return doc.output('blob');
@@ -484,12 +660,20 @@
 
     
     async function generateAndSavePdf(imageUrls, filename) {
+        var total = imageUrls.length;
         setFooter(
-            '<span style="flex:1;font-size:13px;color:#faad14;">⏳ 正在生成 PDF（共 ' + imageUrls.length + ' 页）...</span>' +
+            '<span style="flex:1;font-size:13px;color:#faad14;">⏳ 正在下载（共 ' + total + ' 页）...</span>' +
             '<span style="font-size:12px;color:#999;">请稍候</span>'
         );
 
-        var blob = await generatePdfBlob(imageUrls);
+        var blob = await generatePdfBlob(imageUrls, function(readyCount, pendingCount) {
+            var done = total - pendingCount;
+            setFooter(
+                '<span style="flex:1;font-size:13px;color:#faad14;">⏳ 已下载 ' + done + '/' + total +
+                ' 页' + (pendingCount > 0 ? '（' + pendingCount + ' 页等待中…）' : '') + '</span>'
+            );
+        });
+
         if (!blob) {
             setFooter('<span style="flex:1;font-size:13px;color:#ff4d4f;">❌ PDF 生成失败</span>');
             return;
@@ -497,7 +681,7 @@
 
         triggerDownload(blob, filename);
         setFooter(
-            '<span style="flex:1;font-size:13px;color:#52c41a;">✅ 已触发下载: ' + escapeHtml(filename) + '</span>'
+            '<span style="flex:1;font-size:13px;color:#52c41a;">✅ 已下载: ' + escapeHtml(filename) + '</span>'
         );
     }
 
@@ -521,7 +705,7 @@
             var safeName = courseTitle.replace(/[\\/:*?"<>|]/g, '_').substring(0, 80);
             await generateAndSavePdf(allUrls, safeName + '.pdf');
         } else {
-            
+            // 逐节保存 — 必须串行等待，否则浏览器会丢弃后续下载
             for (var i = 0; i < validLessons.length; i++) {
                 var lesson = validLessons[i];
                 var safeName = makePdfFilename(lesson.label).replace(/\.pdf$/, '');
@@ -536,13 +720,13 @@
                         '<span style="flex:1;font-size:13px;color:#faad14;">' +
                         '⏳ [' + (i + 1) + '/' + validLessons.length + '] 正在保存: ' + escapeHtml(safeName) + '</span>'
                     );
-                    
+                    // 同步等待本次下载完成再继续下一个
                     await triggerDownloadAsync(blob, safeName + '.pdf');
                 }
             }
             setFooter(
                 '<span style="flex:1;font-size:13px;color:#52c41a;">' +
-                '✅ 已触发 ' + validLessons.length + ' 个文件下载</span>' +
+                '✅ 已下载 ' + validLessons.length + ' 个文件</span>' +
                 '<button onclick="document.getElementById(\'wqt-close-btn\').click()" ' +
                 'style="padding:6px 14px;cursor:pointer;color:#666;background:#fff;border:1px solid #d9d9d9;border-radius:4px;">关闭</button>'
             );
@@ -792,12 +976,44 @@
                     });
                     if (result && result.code === 0 && result.data) {
                         var payload = result.data;
-                        if (payload.auto_chapter && payload.origin_sub_list) {
-                            return payload.origin_sub_list.filter(function(e) { return e.type !== 'chapter'; });
+                        
+                        function flattenSubs(obj, out) {
+                            if (!obj || typeof obj !== 'object') return;
+                            if (Array.isArray(obj)) {
+                                for (var i = 0; i < obj.length; i++) {
+                                    if (obj[i] && typeof obj[i] === 'object') {
+                                        
+                                        if (obj[i].id && obj[i].sub_title) {
+                                            out.push(obj[i]);
+                                        } else {
+                                            flattenSubs(obj[i], out);
+                                        }
+                                    }
+                                }
+                            } else {
+                                for (var k in obj) {
+                                    if (obj.hasOwnProperty(k)) flattenSubs(obj[k], out);
+                                }
+                            }
                         }
-                        if (payload.sub_list) {
-                            return payload.sub_list.filter(function(e) { return e.type !== 'chapter'; });
+
+                        var flat = [];
+                        var source = (payload.auto_chapter && payload.origin_sub_list)
+                            ? payload.origin_sub_list : payload.sub_list;
+                        if (source) flattenSubs(source, flat);
+
+                        
+                        var seen = {};
+                        var result2 = [];
+                        for (var fi = 0; fi < flat.length; fi++) {
+                            var e = flat[fi];
+                            if (!e.id) continue;
+                            if (e.type === 'chapter') continue;
+                            if (seen[e.id]) continue;
+                            seen[e.id] = true;
+                            result2.push(e);
                         }
+                        if (result2.length > 0) return result2;
                     }
                 } catch(e) {}
             }
@@ -1149,7 +1365,7 @@
         
         contentArea.innerHTML =
             '<div style="text-align:center;padding:30px;color:#1890ff;">' +
-            '<div style="font-size:32px;margin-bottom:8px;">⏳</div>正在解析课程目录...</div>';
+            '<div style="font-size:32px;margin-bottom:8px;">⏳</div>正在加载课程...</div>';
         setFooter('');
 
         
@@ -1159,27 +1375,27 @@
     async function loadBatchLessons() {
         
         contentArea.innerHTML =
-            '<div style="text-align:center;padding:30px;color:#1890ff;">⏳ 正在通过 API 获取课程数据...</div>';
+            '<div style="text-align:center;padding:30px;color:#1890ff;">⏳ 正在获取课程...</div>';
 
         var lessonItems = await fetchCourseFromApi();
 
         if (!lessonItems || lessonItems.length === 0) {
             contentArea.innerHTML =
-                '<div style="text-align:center;padding:30px;color:#faad14;">⏳ API 未获取到数据，尝试从页面状态提取...</div>';
+                '<div style="text-align:center;padding:30px;color:#faad14;">⏳ 正在读取页面数据...</div>';
             lessonItems = extractFromVueState();
         }
 
         if (!lessonItems || lessonItems.length === 0) {
             contentArea.innerHTML =
-                '<div style="text-align:center;padding:30px;color:#faad14;">⏳ 正在从页面解析课节信息...</div>';
+                '<div style="text-align:center;padding:30px;color:#faad14;">⏳ 正在读取课程信息...</div>';
             lessonItems = extractFromDom();
         }
 
         if (!lessonItems || lessonItems.length === 0) {
             contentArea.innerHTML =
                 '<div style="text-align:center;padding:40px 20px;color:#ff4d4f;">' +
-                '<div style="font-size:32px;margin-bottom:8px;">❌</div>未能获取课程目录数据<br>' +
-                '<span style="font-size:13px;color:#999;">请确认当前页面是课程详情页（URL 包含 coursedetail），刷新后重试</span></div>';
+                '<div style="font-size:32px;margin-bottom:8px;">❌</div>未获取到课程数据<br>' +
+                '<span style="font-size:13px;color:#999;">请确认当前是课程详情页（URL 含 coursedetail），刷新后重试</span></div>';
             setFooter('<button id="wqt-batch-retry" style="padding:6px 20px;cursor:pointer;color:#fff;' +
                 'background:#1890ff;border:none;border-radius:4px;">重试</button>' +
                 '<button id="wqt-batch-close" style="padding:6px 20px;cursor:pointer;color:#666;' +
@@ -1224,7 +1440,7 @@
         var infoNote = '';
         if (noIdCount > 0) {
             infoNote = '<div style="font-size:12px;color:#faad14;margin-bottom:8px;">⚠️ 有 ' + noIdCount +
-                ' 节课缺少 sub_id（数据提取不完整），无法下载</div>';
+                ' 节课无法下载（缺少必要信息）</div>';
         }
 
         contentArea.innerHTML =
@@ -1373,9 +1589,18 @@
                     updateBatchStatus(s.idx, '⚠️ 缺少ID', '#ff7875');
                     return { label: title, pptUrls: [], _failed: true };
                 }
-                var result = await loadLessonInIframe(getLessonUrl(s.item));
-                var pptUrls = result.urls || [];
-                updateBatchStatus(s.idx, pptUrls.length > 0 ? '✅ ' + pptUrls.length + ' 页' : '❌ ' + (result.status || '无'),
+                
+                var apiUrls = await fetchPptUrlsByApi(s.item.id);
+                var pptUrls = [];
+                var failReason = '无';
+                if (apiUrls && apiUrls.length > 0) {
+                    pptUrls = apiUrls;
+                } else {
+                    var result = await loadLessonInIframe(getLessonUrl(s.item));
+                    pptUrls = result.urls || [];
+                    failReason = result.status || '无';
+                }
+                updateBatchStatus(s.idx, pptUrls.length > 0 ? '✅ ' + pptUrls.length + ' 页' : '❌ ' + failReason,
                     pptUrls.length > 0 ? '#52c41a' : '#ff7875');
                 return { label: title + (s.item.lecturer_name ? ' — ' + s.item.lecturer_name : ''), pptUrls: pptUrls };
             };
@@ -1389,7 +1614,7 @@
 
         var validResults = results.filter(function(r) { return r && r.pptUrls && r.pptUrls.length > 0; });
         if (validResults.length === 0) {
-            setFooter('<span style="flex:1;font-size:13px;color:#ff4d4f;">❌ 未提取到任何课件</span>' +
+            setFooter('<span style="flex:1;font-size:13px;color:#ff4d4f;">❌ 没有找到可下载的课件</span>' +
                 '<button onclick="document.getElementById(\'wqt-close-btn\').click()" style="padding:5px 12px;cursor:pointer;color:#666;background:#fff;border:1px solid #d9d9d9;border-radius:4px;">关闭</button>');
             window.__wqt_batch_active = false;
             return;
@@ -1405,7 +1630,7 @@
         if (selected.length === 0) { alert('请至少选择一节课。'); return; }
 
         var valid = selected.filter(function(s) { return s.item.id; });
-        if (valid.length === 0) { alert('所选课节均无有效 ID，无法提取笔记。'); return; }
+        if (valid.length === 0) { alert('所选课节无法提取笔记。'); return; }
 
         disableBatchButtons();
         window.__wqt_batch_active = true;
@@ -1623,6 +1848,8 @@
             return;
         }
 
+        
+        
         var html = '<!DOCTYPE html><html><head>' +
             '<meta charset="UTF-8"><title>' + escapeHtml(pageTitle) + '</title>' +
             '<style>' +
@@ -1633,6 +1860,7 @@
             '.ppt-page { width: 100vw; height: 100vh; page-break-after: always; display: flex;' +
             '  justify-content: center; align-items: center; margin: 0; padding: 0; }' +
             '.ppt-page img { width: 100%; height: 100%; object-fit: cover; display: block; }' +
+            '.ppt-page .placeholder { color: #999; font-size: 20px; }' +
             '#wqt-print-btn { position: fixed; top: 20px; right: 30px; z-index: 99999; padding: 10px 24px;' +
             '  font-size: 15px; color: white; background-color: #1890ff; border: none; border-radius: 4px;' +
             '  cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }' +
@@ -1641,12 +1869,30 @@
             '<button id="wqt-print-btn" onclick="window.print()">调用系统打印 (共 ' + pptUrls.length + ' 页)</button>';
 
         for (var i = 0; i < pptUrls.length; i++) {
-            html += '<div class="ppt-page"><img src="' + escapeHtml(pptUrls[i]) + '" /></div>';
+            html += '<div class="ppt-page" id="wqt-page-' + i + '">' +
+                '<span class="placeholder">加载中 ' + (i + 1) + '/' + pptUrls.length + '…</span></div>';
         }
         html += '</body></html>';
 
         printWindow.document.write(html);
         printWindow.document.close();
+
+        
+        var completed = 0;
+        function fillOne(i) {
+            if (i >= pptUrls.length) return;
+            imageUrlToDataUrlWithRetry(pptUrls[i]).then(function(dataUrl) {
+                var pageEl = printWindow.document.getElementById('wqt-page-' + i);
+                if (pageEl && dataUrl) {
+                    pageEl.innerHTML = '<img src="' + dataUrl + '" />';
+                } else if (pageEl) {
+                    pageEl.innerHTML = '<span class="placeholder" style="color:#ff7875;">加载失败 ' + (i + 1) + '</span>';
+                }
+                completed++;
+                fillOne(i + 1);
+            });
+        }
+        fillOne(0);
     }
 
     function updateSingleStatus(msg, bgColor) {
@@ -1695,7 +1941,7 @@
 
         
         var method = localStorage.getItem('wqt_single_method') || 'silent';
-        var methodLabel = method === 'silent' ? '🚀 自动提取' : '🖱 翻页提取';
+        var methodLabel = method === 'silent' ? '🚀 一键提取' : '🖱 翻页提取';
         var voiceOn = localStorage.getItem('wqt_notes_voice') !== 'false';
 
         contentArea.innerHTML =
@@ -1764,92 +2010,110 @@
         contentArea.innerHTML =
             '<div id="wqt-single-status" style="padding:14px 16px;background:#e6f7ff;border-radius:8px;' +
             'color:#333;font-size:14px;line-height:1.6;margin-bottom:12px;transition:background 0.3s;">' +
-            '🚀 正在从页面提取课件...</div>';
+            '🚀 正在提取课件...</div>';
 
         setFooter(
-            '<span style="flex:1;font-size:13px;color:#999;">自动提取中...</span>' +
+            '<span style="flex:1;font-size:13px;color:#999;">提取中...</span>' +
             '<button id="wqt-cancel-single" style="padding:6px 14px;cursor:pointer;color:#666;' +
             'background:#fff;border:1px solid #d9d9d9;border-radius:4px;">关闭</button>'
         );
         document.getElementById('wqt-cancel-single').onclick = closePopup;
 
         
-        setTimeout(function() {
-            var clickedTab = false;
-            var startTime = Date.now();
-
-            function pollSilent() {
-                var result = extractPptFromCurrentPage(clickedTab);
-
-                if (result.clickedTab && !clickedTab) {
-                    clickedTab = true;
-                    updateSingleStatus('🔄 已点击 PPT 标签页，等待渲染...', '#fff7e6');
-                    setTimeout(pollSilent, 1500);
-                    return;
-                }
-
-                if (result.urls.length > 0) {
+        var curSubId = subId || (new URLSearchParams(window.location.search)).get('sub_id');
+        if (curSubId) {
+            fetchPptUrlsByApi(curSubId).then(function(apiUrls) {
+                if (apiUrls && apiUrls.length > 0) {
                     
-                    var urls = result.urls;
-                    updateSingleStatus('✅ 成功提取 <b>' + urls.length + '</b> 页课件！', '#f6ffed');
-                    contentArea.innerHTML +=
-                        '<div style="font-size:13px;color:#999;margin-top:8px;padding:0 4px;">' +
-                        '💡 自动提取直接从页面侧边栏提取 PPT，无需翻页，即刻完成。</div>';
-                    setFooter(
-                        '<span style="flex:1;font-size:13px;color:#52c41a;">已提取 ' + urls.length + ' 页</span>' +
-                        '<button id="wqt-open-preview" style="padding:6px 20px;cursor:pointer;color:#fff;' +
-                        'background:#1890ff;border:none;border-radius:4px;font-weight:bold;">📄 预览并导出</button>' +
-                        '<button id="wqt-save-pdf-silent" style="padding:6px 16px;cursor:pointer;color:#fff;' +
-                        'background:#52c41a;border:none;border-radius:4px;font-weight:bold;">💾 直接保存 PDF</button>' +
-                        '<button id="wqt-export-notes-silent" style="padding:6px 16px;cursor:pointer;color:#fff;' +
-                        'background:#fa8c16;border:none;border-radius:4px;font-weight:bold;">📝 导出笔记</button>' +
-                        '<button id="wqt-switch-clicker" style="padding:6px 12px;cursor:pointer;color:#999;' +
-                        'background:#fff;border:1px solid #d9d9d9;border-radius:4px;font-size:12px;">切换到翻页提取</button>' +
-                        '<button id="wqt-single-close" style="padding:6px 14px;cursor:pointer;color:#666;' +
-                        'background:#fff;border:1px solid #d9d9d9;border-radius:4px;">关闭</button>'
-                    );
-                    document.getElementById('wqt-open-preview').onclick = function() {
-                        buildPdfPage(urls);
-                    };
-                    document.getElementById('wqt-save-pdf-silent').onclick = function() {
-                        generateAndSavePdf(urls, makePdfFilename());
-                    };
-                    document.getElementById('wqt-export-notes-silent').onclick = function() {
-                        extractAndSaveNotes(document, window);
-                    };
-                    document.getElementById('wqt-switch-clicker').onclick = function() {
-                        localStorage.setItem('wqt_single_method', 'clicker');
-                        startClickerMode();
-                    };
-                    document.getElementById('wqt-single-close').onclick = closePopup;
-                    return;
-                }
-
-                if (Date.now() - startTime > 8000) {
+                    finishSilentWithUrls(apiUrls, true);
+                } else {
                     
-                    updateSingleStatus('⚠️ 未在页面中找到 PPT 缩略图。<br>可能需要在播放器中打开侧边栏的 PPT 标签页。', '#fff2f0');
-                    setFooter(
-                        '<button id="wqt-switch-clicker2" style="padding:6px 20px;cursor:pointer;color:#fff;' +
-                        'background:#faad14;border:none;border-radius:4px;font-weight:bold;">🖱 切换到翻页提取</button>' +
-                        '<button id="wqt-retry-silent" style="padding:6px 14px;cursor:pointer;color:#1890ff;' +
-                        'background:#fff;border:1px solid #1890ff;border-radius:4px;">重试</button>' +
-                        '<button id="wqt-single-close2" style="padding:6px 14px;cursor:pointer;color:#666;' +
-                        'background:#fff;border:1px solid #d9d9d9;border-radius:4px;">关闭</button>'
-                    );
-                    document.getElementById('wqt-switch-clicker2').onclick = function() {
-                        localStorage.setItem('wqt_single_method', 'clicker');
-                        startClickerMode();
-                    };
-                    document.getElementById('wqt-retry-silent').onclick = startSilentMode;
-                    document.getElementById('wqt-single-close2').onclick = closePopup;
-                    return;
+                    updateSingleStatus('⚠️ API 未取到，回退到页面提取...', '#fff7e6');
+                    setTimeout(pollSilentLegacy, 500);
                 }
+            });
+        } else {
+            
+            setTimeout(pollSilentLegacy, 500);
+        }
 
-                setTimeout(pollSilent, 800);
+        
+        function finishSilentWithUrls(urls, fromApi) {
+            updateSingleStatus('✅ 成功提取 <b>' + urls.length + '</b> 页课件！', '#f6ffed');
+            contentArea.innerHTML +=
+                '<div style="font-size:13px;color:#999;margin-top:8px;padding:0 4px;">' +
+                (fromApi
+                    ? '已获取全部 PPT 原图。'
+                    : '已从页面提取 PPT。') + '</div>';
+            setFooter(
+                '<span style="flex:1;font-size:13px;color:#52c41a;">已提取 ' + urls.length + ' 页</span>' +
+                '<button id="wqt-open-preview" style="padding:6px 20px;cursor:pointer;color:#fff;' +
+                'background:#1890ff;border:none;border-radius:4px;font-weight:bold;">📄 预览并导出</button>' +
+                '<button id="wqt-save-pdf-silent" style="padding:6px 16px;cursor:pointer;color:#fff;' +
+                'background:#52c41a;border:none;border-radius:4px;font-weight:bold;">💾 直接保存 PDF</button>' +
+                '<button id="wqt-export-notes-silent" style="padding:6px 16px;cursor:pointer;color:#fff;' +
+                'background:#fa8c16;border:none;border-radius:4px;font-weight:bold;">📝 导出笔记</button>' +
+                '<button id="wqt-single-close" style="padding:6px 14px;cursor:pointer;color:#666;' +
+                'background:#fff;border:1px solid #d9d9d9;border-radius:4px;">关闭</button>'
+            );
+            document.getElementById('wqt-open-preview').onclick = function() {
+                buildPdfPage(urls);
+            };
+            document.getElementById('wqt-save-pdf-silent').onclick = function() {
+                
+                if (curSubId) {
+                    fetchSubTitle(curSubId).then(function(subTitle) {
+                        generateAndSavePdf(urls, makePdfFilename(subTitle || undefined));
+                    });
+                } else {
+                    generateAndSavePdf(urls, makePdfFilename());
+                }
+            };
+            document.getElementById('wqt-export-notes-silent').onclick = function() {
+                extractAndSaveNotes(document, window);
+            };
+            document.getElementById('wqt-single-close').onclick = closePopup;
+        }
+
+        
+        var clickedTab = false;
+        var legacyStartTime = Date.now();
+        function pollSilentLegacy() {
+            var result = extractPptFromCurrentPage(clickedTab);
+
+            if (result.clickedTab && !clickedTab) {
+                clickedTab = true;
+                updateSingleStatus('🔄 已点击 PPT 标签页，等待渲染...', '#fff7e6');
+                setTimeout(pollSilentLegacy, 1500);
+                return;
             }
 
-            pollSilent();
-        }, 500);
+            if (result.urls.length > 0) {
+                finishSilentWithUrls(result.urls, false);
+                return;
+            }
+
+            if (Date.now() - legacyStartTime > 8000) {
+                updateSingleStatus('⚠️ 未在页面中找到 PPT 缩略图。<br>可能需要在播放器中打开侧边栏的 PPT 标签页。', '#fff2f0');
+                setFooter(
+                    '<button id="wqt-switch-clicker2" style="padding:6px 20px;cursor:pointer;color:#fff;' +
+                    'background:#faad14;border:none;border-radius:4px;font-weight:bold;">🖱 切换到翻页提取</button>' +
+                    '<button id="wqt-retry-silent" style="padding:6px 14px;cursor:pointer;color:#1890ff;' +
+                    'background:#fff;border:1px solid #1890ff;border-radius:4px;">重试</button>' +
+                    '<button id="wqt-single-close2" style="padding:6px 14px;cursor:pointer;color:#666;' +
+                    'background:#fff;border:1px solid #d9d9d9;border-radius:4px;">关闭</button>'
+                );
+                document.getElementById('wqt-switch-clicker2').onclick = function() {
+                    localStorage.setItem('wqt_single_method', 'clicker');
+                    startClickerMode();
+                };
+                document.getElementById('wqt-retry-silent').onclick = startSilentMode;
+                document.getElementById('wqt-single-close2').onclick = closePopup;
+                return;
+            }
+
+            setTimeout(pollSilentLegacy, 800);
+        }
     }
 
     
@@ -1868,7 +2132,7 @@
             '<p>• 自动翻页每 150ms 翻一页，连续 20 次无新图片时判定完成</p>' +
             '<p>• 中途可随时点击下方终止按钮停止</p>' +
             '<p style="margin-top:8px;"><a href="#" id="wqt-switch-silent-link" ' +
-            'style="color:#1890ff;text-decoration:none;">💡 切换到自动提取（更快，无需翻页）</a></p></div>';
+            'style="color:#1890ff;text-decoration:none;">切换到一键提取</a></p></div>';
 
         setFooter(
             '<span style="flex:1;font-size:13px;color:#999;">等待点击确认...</span>' +
@@ -1896,6 +2160,30 @@
     
     
     
+    
+    var isWqxtPage = pageUrl.indexOf('wqxt.cdut.edu.cn') !== -1;
+    if (!isWqxtPage) {
+        contentArea.innerHTML =
+            '<div style="text-align:center;padding:44px 20px;color:#333;">' +
+            '<div style="font-size:52px;margin-bottom:16px;">🚀</div>' +
+            '<p style="font-size:17px;font-weight:bold;margin-bottom:8px;">当前不在问渠学堂页面</p>' +
+            '<p style="font-size:13px;color:#999;margin-bottom:20px;">请先进入问渠学堂，再使用课件下载 / 笔记导出功能</p>' +
+            '<a href="https://education.wqxt.cdut.edu.cn/?tenant_code=21" target="_blank" ' +
+            'style="display:inline-block;padding:12px 28px;background:#1890ff;color:#fff;' +
+            'text-decoration:none;border-radius:8px;font-size:15px;font-weight:bold;margin-bottom:12px;">' +
+            '进入问渠学堂</a>' +
+            '<br>' +
+            '<a href="https://classroom.wqxt.cdut.edu.cn/" target="_blank" ' +
+            'style="display:inline-block;padding:8px 20px;background:#fff;color:#1890ff;' +
+            'text-decoration:none;border:1px solid #1890ff;border-radius:8px;font-size:13px;">' +
+            '进入课堂</a>' +
+            '</div>';
+        setFooter('<button onclick="document.getElementById(\'wqt-close-btn\').click()" ' +
+            'style="padding:6px 20px;cursor:pointer;color:#666;background:#f5f5f5;' +
+            'border:1px solid #d9d9d9;border-radius:4px;">关闭</button>');
+        return;
+    }
+
     switchTab(activeTab);
 
 })();
