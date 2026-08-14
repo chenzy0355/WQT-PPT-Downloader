@@ -3,6 +3,8 @@
 成都理工大学问渠学堂浏览器扩展，提供课件 PPT 导出、课堂笔记提取、课程列表快速入口等功能。
 
 ## 功能
+<img width="929" height="925" alt="5e82efc6c1d4164fe85b7d420ea3023b" src="https://github.com/user-attachments/assets/fdde31bf-be5b-497d-a0f6-814861e34c77" />
+<img width="981" height="755" alt="8fab256d7a7dece7aef7a384ee3f1a5c" src="https://github.com/user-attachments/assets/91f1d938-b53a-46c2-89d6-c94216751072" />
 
 - **课件 PPT 导出**：一键提取课程 PPT 原图，合成 PDF 直接下载
 - **课堂笔记提取**：AI 摘要、语音识别、热词云，导出为 Markdown
@@ -15,6 +17,8 @@
 2. 打开 Chrome，访问 `chrome://extensions/`
 3. 开启右上角「开发者模式」
 4. 点击「加载已解压的扩展程序」，选择本项目文件夹
+   <img width="605" height="309" alt="image" src="https://github.com/user-attachments/assets/313a7f87-4379-44ff-8eff-bb6a211e3c26" />
+
 
 ## 使用
 
