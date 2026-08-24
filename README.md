@@ -13,8 +13,7 @@
 
 ## 安装
 
-安卓端https://github.com/chenzy0355/cdut-wqhelper/releases/tag/v3.0.0 请安装恐龙Next_v1.2.15_release.apk
-桌面端使用浏览器扩展，方法如下：
+安卓端https://github.com/chenzy0355/cdut-wqhelper/releases/tag/v3.0.0 请安装恐龙Next_v1.2.15_release.apk，桌面端使用浏览器扩展，方法如下：
 1. 下载本仓库代码
 2. 打开 Chrome，访问 `chrome://extensions/`
 3. 开启右上角「开发者模式」
